@@ -54,7 +54,7 @@ resource "ibmcloud_infra_virtual_guest" "softlayer_virtual_guest" {
   cores                    = "${var.cores}"
   memory                   = "${var.memory}"
   disks                    = ["${var.disk1}"]
-  dedicated_acct_host_only = true
+  dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${var.user_public_key_id}", "${var.temp_public_key_id}"]
 

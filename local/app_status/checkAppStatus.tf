@@ -13,11 +13,8 @@
 #
 ################################################################
 
-variable "script_url" {
-  default = "https://raw.githubusercontent.com/camc-experimental/terraform-modules/master/local/app_status/files/checkHttp.sh"
-}
-variable "script_name" {
-  default = "checkHttp.sh"
+variable "module_script" {
+  default = "files/checkHttp.sh"	
 }
 variable "script_variables" {
   default = ""
@@ -33,7 +30,7 @@ resource "null_resource" "default"{
 
   # Execute the script locally
   provisioner "local-exec" {
-    command = "${var.prior_custom_commands}; curl -k -s -o ${var.script_name} ${var.script_url}; bash ${var.script_name} ${var.script_variables}; ${var.posterior_custom_commands}"
+    command = "${var.prior_custom_commands}; bash ${path.module}/${var.module_script} ${var.script_variables}; ${var.posterior_custom_commands}"
   }
   
 }
