@@ -24,7 +24,7 @@ This module is to provision a VM in SoftLayer and run scripts/commands in the ne
 
 The following scripts/commands executed in the VM sequentially:
 * the script to install software
-  * (optional) specified varaibles
+  * (optional) specified variables
   * (optional) specified url for sample application tarball
 * the commands to remove temporary public key, if required
 * the custom commands
@@ -35,7 +35,7 @@ The variables expected in the module:
 | --------- | -------- | ----------- |
 | hostname |  | The hostname of virtual guest |
 | domain |  | The domain of virtual guest |
-| datacenter |  | The data center where virtual guest is provisoned |
+| datacenter |  | The data center where virtual guest is provisioned |
 | os_reference_code |  | The operating system code in SoftLayer |
 | cores |  | The number of CPU cores |
 | memory |  | The memory size in GB |
@@ -51,7 +51,7 @@ The variables expected in the module:
 | module_sample_application_url | "" | The url of sample application tarballs used in the script |
 | module_custom_commands | sleep 1 | The custom commands |
 
-The outpt from the module:
+The output from the module:
 
 | output  | Description |
 | ------- | ----------- |
@@ -63,7 +63,7 @@ This module is to provision a cluster VM in SoftLayer and run scripts/commands i
 
 The following scripts/commands executed in the VMs sequentially:
 * the script to install software
-  * (optional) specified varaibles
+  * (optional) specified variables
   * (optional) specified url for sample application tarball
 * the commands to remove temporary public key, if required
 * the custom commands
@@ -75,7 +75,7 @@ The variables expected in the module:
 | count | 1 | The count of virtual guests to be provisioned |
 | hostname |  | The prefix of hostname of virtual guest |
 | domain |  | The domain of virtual guest |
-| datacenter |  | The data center where virtual guest is provisoned |
+| datacenter |  | The data center where virtual guest is provisioned |
 | os_reference_code |  | The operating system code in SoftLayer |
 | cores |  | The number of CPU cores |
 | memory |  | The memory size in GB |
@@ -90,7 +90,7 @@ The variables expected in the module:
 | module_sample_application_url | "" | The url of sample application tarballs used in the script |
 | module_custom_commands | sleep 1 | The custom commands |
 
-The outpt from the module:
+The output from the module:
 
 | output  | Description |
 | ------- | ----------- |
@@ -102,7 +102,7 @@ This module is to run scripts/commands in the newly provisioned VM.
 
 The following scripts/commands executed in the VM sequentially:
 * the script to install software
-  * (optional) specified varaibles
+  * (optional) specified variables
   * (optional) specified url for sample application tarball
 * the commands to remove temporary public key, if required
 * the custom commands
@@ -144,7 +144,7 @@ The variables expected in the module:
 | module_script_variable_2 | "" | The second variable of the script to install software |
 | module_script_variable_3 | "" | The third variable of the script to install software |
 
-The outpt from the module:
+The output from the module:
 
 | output  | Description |
 | ------- | ----------- |
@@ -192,7 +192,7 @@ The variables expected in the module:
 |  | us-east-1 = "ami-6edd3078" |  |
 |  | us-east-2 = "ami-e0b59085" |  |
 
-The outpt from the module:
+The output from the module:
 
 | output  | Description |
 | ------- | ----------- |
@@ -201,7 +201,7 @@ The outpt from the module:
 #### network
 ##### meanstack
 
-This module is to build the network in AWS, sepcially for Meanstack payload, including
+This module is to build the network in AWS, specifically for Meanstack payload, including
 * VPC
 * Internet Gateway
 * Route Table
@@ -228,7 +228,7 @@ The outpt from the module:
 
 ##### lamp
 
-This module is to build the network in AWS, sepcially for LAMP payload, including
+This module is to build the network in AWS, specifically for LAMP payload, including
 * VPC
 * Internet Gateway
 * Route Table
@@ -246,7 +246,7 @@ The variables expected in the module:
 | primary_availability_zone |  | The primary availability zone in the network |
 | secondary_availability_zone |  | The second availability zone in the network |
 
-The outpt from the module:
+The output from the module:
 
 | output  | Description |
 | ------- | ----------- |
@@ -268,6 +268,22 @@ The variables expected in the module:
 | public_mysql_dns |  | The address of RDS DB instance |
 | cam_user |  | The user for ssh |
 | cam_pwd |  | The user password for ssh |
+
+### ibmpower
+
+#### ibm_cloud_private
+
+This module is to provision an IBM Cloud Private (ICP) cluster atop PowerVC. It
+will create an ICP master node (also serves as both a boot and proxy node) as
+well as a user-defined number of worker nodes. For more details about the
+module, please refer to its README file.
+
+#### nginx
+
+This module is to provision a sample NGINX cluster atop PowerVC. It will create
+three VMs and perfom a standard NGINX installation. This is intended as an
+example only and can be tailored to meet your specific needs. For more details
+about the module, please refer to its README file.
 
 ### local
 #### app_status
