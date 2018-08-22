@@ -52,17 +52,16 @@ variable "cluster" {
   default     = ""
 }
 
-variable "dns_suffix" {
-  description = "Name resolution suffix for the virtual network adapter"
-  default     = ""
+variable "dns_suffixes" {
+  description = "Name resolution suffixes for the virtual network adapter"
+  type        = "list"
+  default     = []
 }
 
-variable "primary_dns_server" {
-  description = "Primary DNS server for the virtual network adapter"
-}
-
-variable "secondary_dns_server" {
-  description = "Secondary DNS server for the virtual network adapter"
+variable "dns_servers" {
+  description = "DNS servers for the virtual network adapter"
+  type        = "list"
+  default     = []
 }
 
 variable "network_label" {
@@ -126,8 +125,8 @@ resource "vsphere_virtual_machine" "vm" {
   vcpu         = "${var.vcpu}"
   memory       = "${var.memory}"
   cluster      = "${var.cluster}"
-  dns_suffixes = ["${var.dns_suffix}"]
-  dns_servers  = ["${var.primary_dns_server}","${var.secondary_dns_server}"]
+  dns_suffixes = "${var.dns_suffixes}"
+  dns_servers  = "${var.dns_servers}"
   network_interface {
     label              = "${var.network_label}"
     ipv4_gateway       = "${var.ipv4_gateway}"

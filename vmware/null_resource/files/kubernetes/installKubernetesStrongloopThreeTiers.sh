@@ -73,6 +73,7 @@ done
 
 MongoPod=$(kubectl get pod | grep "todolist-mongodb-deployment" | awk '{print $1}')
 kubectl exec $MongoPod -- bash -c 'echo "db.createUser({user:\"sampleUser\", pwd: \"'$DBUserPwd'\", roles: [{role: \"userAdminAnyDatabase\", db: \"admin\"}]})" > mongouser.js' >> $LOGFILE 2>&1 || { echo "---Failed to create file in the container---" | tee -a $LOGFILE; }
+sleep 30
 kubectl exec $MongoPod -- mongo localhost:27017/admin mongouser.js                                                                                                              >> $LOGFILE 2>&1 || { echo "---Failed to add user---" | tee -a $LOGFILE; }
 
 #################################################################

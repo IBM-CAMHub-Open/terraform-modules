@@ -46,7 +46,13 @@ echo "---start installing kubernetes minion node on $MYHOSTNAME---" | tee -a $LO
 #################################################################
 # install packages
 #################################################################
-subscription-manager repos --enable=rhel-7-server-extras-rpms         >> $LOGFILE 2>&1 || { echo "---Add rhel-7-server-extras-rpms repo---" | tee -a $LOGFILE; exit 1; }
+#enable repos
+yum install -y yum-utils                                      >> $LOGFILE 2>&1 || { echo "---Failed to install yum-config-manager---" | tee -a $LOGFILE; exit 1; }       
+yum clean all                                                 >> $LOGFILE 2>&1 || { echo "---Failed to clean repos---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-optional-rpms       >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-optional-rpms---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-extras-rpms         >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-extras-rpms---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-supplementary-rpms  >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-supplementary-rpms---" | tee -a $LOGFILE; exit 1; }  
+
 systemctl disable firewalld                                           >> $LOGFILE 2>&1 || { echo "---Failed to disable firewall---" | tee -a $LOGFILE; exit 1; }
 systemctl stop firewalld                                              >> $LOGFILE 2>&1 || { echo "---Failed to stop firewall---" | tee -a $LOGFILE; exit 1; }
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config   >> $LOGFILE 2>&1 || { echo "---Failed to config selinux---" | tee -a $LOGFILE; exit 1; }

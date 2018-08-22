@@ -45,7 +45,7 @@ resource "null_resource" "default"{
   connection {
     user        = "${var.ssh_user}"
     private_key = "${base64decode(var.camc_private_ssh_key)}"
-    host        = "${var.remote_hosts[count.index]}"
+	host        = "${element(var.remote_hosts,count.index)}"
   }
   
   # Create the installation script

@@ -25,6 +25,13 @@ LOGFILE="/var/log/install_mongodb_strongloop_angular_nodejs.log"
 #echo "---update system---" | tee -a $LOGFILE 2>&1 
 #yum update -y >> $LOGFILE 2>&1 
 
+#enable repos
+yum install -y yum-utils                                      >> $LOGFILE 2>&1 || { echo "---Failed to install yum-config-manager---" | tee -a $LOGFILE; exit 1; }       
+yum clean all                                                 >> $LOGFILE 2>&1 || { echo "---Failed to clean repos---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-optional-rpms       >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-optional-rpms---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-extras-rpms         >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-extras-rpms---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-supplementary-rpms  >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-supplementary-rpms---" | tee -a $LOGFILE; exit 1; }  
+
 #install mongodb
 
 echo "---start installing mongodb---" | tee -a $LOGFILE 2>&1

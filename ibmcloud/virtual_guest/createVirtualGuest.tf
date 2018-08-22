@@ -42,7 +42,7 @@ variable "remove_temp_private_key" {
   default = "true"
 }
 
-resource "ibmcloud_infra_virtual_guest" "softlayer_virtual_guest" {
+resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   hostname                 = "${var.hostname}"
   os_reference_code        = "${var.os_reference_code}"
   domain                   = "${var.domain}"
@@ -82,5 +82,5 @@ resource "ibmcloud_infra_virtual_guest" "softlayer_virtual_guest" {
 }
 
 output "public_ip" {
-    value = "${ibmcloud_infra_virtual_guest.softlayer_virtual_guest.ipv4_address}"    
+    value = "${ibm_compute_vm_instance.softlayer_virtual_guest.ipv4_address}"    
 }

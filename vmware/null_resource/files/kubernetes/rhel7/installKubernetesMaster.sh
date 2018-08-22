@@ -39,11 +39,18 @@ echo "---start installing kubernetes master node on $MYHOSTNAME---" | tee -a $LO
 #################################################################
 # install packages
 #################################################################
-subscription-manager repos --enable=rhel-7-server-extras-rpms         >> $LOGFILE 2>&1 || { echo "---Add rhel-7-server-extras-rpms repo---" | tee -a $LOGFILE; exit 1; }
+#enable repos
+yum install -y yum-utils                                      >> $LOGFILE 2>&1 || { echo "---Failed to install yum-config-manager---" | tee -a $LOGFILE; exit 1; }       
+yum clean all                                                 >> $LOGFILE 2>&1 || { echo "---Failed to clean repos---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-optional-rpms       >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-optional-rpms---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-extras-rpms         >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-extras-rpms---" | tee -a $LOGFILE; exit 1; }
+yum-config-manager --enable rhel-7-server-supplementary-rpms  >> $LOGFILE 2>&1 || { echo "---Failed to enable rhel-7-server-supplementary-rpms---" | tee -a $LOGFILE; exit 1; }  
+
 systemctl disable firewalld                                           >> $LOGFILE 2>&1 || { echo "---Failed to disable firewall---" | tee -a $LOGFILE; exit 1; }
 systemctl stop firewalld                                              >> $LOGFILE 2>&1 || { echo "---Failed to stop firewall---" | tee -a $LOGFILE; exit 1; }
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config   >> $LOGFILE 2>&1 || { echo "---Failed to config selinux---" | tee -a $LOGFILE; exit 1; }
 setenforce 0                                                          >> $LOGFILE 2>&1 || { echo "---Failed to set enforce---" | tee -a $LOGFILE; exit 1; }
+subscription-manager refresh                                          >> $LOGFILE 2>&1 || { echo "---Failded to refresh subscription-manager---" | tee -a $LOGFILE; exit 1; }
 yum install etcd -y                                                   >> $LOGFILE 2>&1 || { echo "---Failed to install etcd---" | tee -a $LOGFILE; exit 1; }
 yum install flannel -y                                                >> $LOGFILE 2>&1 || { echo "---Failed to install flannel---" | tee -a $LOGFILE; exit 1; }
 yum install kubernetes -y                                             >> $LOGFILE 2>&1 || { echo "---Failed to install kubernetes---" | tee -a $LOGFILE; exit 1; }

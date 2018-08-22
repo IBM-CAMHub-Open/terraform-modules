@@ -42,7 +42,7 @@ variable "module_custom_commands" {
   default = "sleep 1"
 }
 
-resource "ibmcloud_infra_virtual_guest" "softlayer_virtual_guest" {
+resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   count                    = "${var.count}"
   hostname                 = "${var.hostname}-${count.index+1}"
   os_reference_code        = "${var.os_reference_code}"
@@ -83,5 +83,5 @@ resource "ibmcloud_infra_virtual_guest" "softlayer_virtual_guest" {
 }
 
 output "public_ip" {
-    value = "${join(",", ibmcloud_infra_virtual_guest.softlayer_virtual_guest.*.ipv4_address)}"    
+    value = "${join(",", ibm_compute_vm_instance.softlayer_virtual_guest.*.ipv4_address)}"    
 }
