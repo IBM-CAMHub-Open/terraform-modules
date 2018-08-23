@@ -38,10 +38,22 @@ variable "ip" {
 }
 
 variable "id" {
-  description = "VM ID. Used for depends."
+  description = "VM ID. Used for depends."  
+}
+
+##############################
+#Variable to control enablement of this resource.
+##############################
+
+variable "enable" {
+  description = "true to enable false otherwise."
+  default = "false"
 }
 
 resource "null_resource" "proxy" {
+  
+  count = "${var.enable == "true" ? 1 : 0}"
+  
   # Specify the connection
   connection {
     host                = "${var.ip}"
