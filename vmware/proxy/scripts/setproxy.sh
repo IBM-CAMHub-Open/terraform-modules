@@ -84,14 +84,14 @@ else
 	#Allow sudo users to use the http_proxy 
 	#https_proxy no_proxy env variables
 	###
-  touch /etc/sudoers.tmp
-  cp /etc/sudoers /tmp/sudoers.mod
-  echo 'Defaults env_keep += "http_proxy https_proxy no_proxy"' >> /tmp/sudoers.mod
+  sudo touch /etc/sudoers.tmp
+  sudo cp /etc/sudoers /tmp/sudoers.mod
+  sudo sh -c 'echo "Defaults env_keep += \"http_proxy https_proxy no_proxy\"" >> /tmp/sudoers.mod'
   sudo visudo -c -f /tmp/sudoers.mod
   if [ "$?" -eq "0" ]; then
     sudo mv /tmp/sudoers.mod /etc/sudoers
   fi
-  rm /etc/sudoers.tmp  
+  sudo rm /etc/sudoers.tmp  
   
 	###
 	#Process http proxy data type 
@@ -103,13 +103,13 @@ else
   begin_message "Set http proxy environment variables"  
   HTTP_PROXY_VAR=$PROTOCOL
   HTTPS_PROXY_VAR=$PROTOCOL
-  if [[ -n "HTTP_PROXY_USER" && -n "HTTP_PROXY_PASSWORD" ]]; then
+  if [[ -n "$HTTP_PROXY_USER" && -n "$HTTP_PROXY_PASSWORD" ]]; then
     HTTP_PROXY_VAR="$HTTP_PROXY_VAR$HTTP_PROXY_USER:$HTTP_PROXY_PASSWORD@"
     HTTPS_PROXY_VAR="$HTTPS_PROXY_VAR$HTTP_PROXY_USER:$HTTP_PROXY_PASSWORD@"
   fi
   HTTP_PROXY_VAR="$HTTP_PROXY_VAR$HTTP_PROXY_HOST"
   HTTPS_PROXY_VAR="$HTTPS_PROXY_VAR$HTTP_PROXY_HOST"
-  if [[ -n "HTTP_PROXY_PORT"  ]]; then
+  if [[ -n "$HTTP_PROXY_PORT"  ]]; then
     HTTP_PROXY_VAR="$HTTP_PROXY_VAR:$HTTP_PROXY_PORT"
     HTTPS_PROXY_VAR="$HTTPS_PROXY_VAR:$HTTP_PROXY_PORT"
   fi
@@ -117,22 +117,22 @@ else
   export https_proxy=$HTTPS_PROXY_VAR
   NO_PROXY="127.0.0.1,localhost"
   export no_proxy=$NO_PROXY
-  echo "export http_proxy=$HTTP_PROXY_VAR" >> /etc/profile.d/proxy-env-var.sh
-  echo "export https_proxy=$HTTPS_PROXY_VAR" >> /etc/profile.d/proxy-env-var.sh
-  echo "export no_proxy=$NO_PROXY" >> /etc/profile.d/proxy-env-var.sh
-	###
-	#Set proxy for apt or yum 
-	###  
+  echo "export http_proxy=$HTTP_PROXY_VAR" | sudo tee --append /etc/profile.d/proxy-env-var.sh
+  echo "export https_proxy=$HTTPS_PROXY_VAR" | sudo tee --append /etc/profile.d/proxy-env-var.sh
+  echo "export no_proxy=$NO_PROXY" | sudo tee --append /etc/profile.d/proxy-env-var.sh  
+  ###
+  #Set proxy for apt or yum 
+  ###  
   if [[ $PLATFORM == *"ubuntu"* ]]; then    
-    echo Acquire::http::Proxy \"${HTTP_PROXY_VAR}/\"\; >> /etc/apt/apt.conf
-    echo Acquire::https::Proxy \"${HTTPS_PROXY_VAR}/\"\; >> /etc/apt/apt.conf
+    echo "Acquire::http::Proxy \"${HTTP_PROXY_VAR}/\";" | sudo tee --append /etc/apt/apt.conf
+    echo "Acquire::https::Proxy \"${HTTPS_PROXY_VAR}/\";" | sudo tee --append /etc/apt/apt.conf
   else  
     RHEL_HTTP_PROXY_VAR="proxy=$PROTOCOL$HTTP_PROXY_HOST"
-    if [[ -n "HTTP_PROXY_PORT"  ]]; then
+    if [[ -n "$HTTP_PROXY_PORT"  ]]; then
       RHEL_HTTP_PROXY_VAR="$RHEL_HTTP_PROXY_VAR:$HTTP_PROXY_PORT"
     fi
     RHEL_HTTP_PROXY_PASSWORD="proxy_password=$HTTP_PROXY_PASSWORD"
     RHEL_HTTP_PROXY_USER="proxy_username=$HTTP_PROXY_USER"
-    sed -i "/\[main\]/a $RHEL_HTTP_PROXY_VAR\n$RHEL_HTTP_PROXY_PASSWORD\n$RHEL_HTTP_PROXY_USER" /etc/yum.conf  
+    sudo sed -i "/\[main\]/a $RHEL_HTTP_PROXY_VAR\n$RHEL_HTTP_PROXY_PASSWORD\n$RHEL_HTTP_PROXY_USER" /etc/yum.conf  
    fi  
 fi
