@@ -5,6 +5,9 @@ resource "null_resource" "create_ilmt_file_dependsOn" {
 }
 
 resource "null_resource" "create_ilmt_file" {
+
+  count = "${var.enable_vm == "true" ? length(var.vm_ipv4_address_list) : 0}"
+
   depends_on = ["null_resource.create_ilmt_file_dependsOn"]
 
   connection {

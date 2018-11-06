@@ -13,6 +13,7 @@ The module must be executed on any vms deployed using CAM in order to register t
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | dependsOn | Boolean for dependency | string | `true` | no |
+| enable_vm | Boolean for vm creation | string | `true` | no |
 | private_key | Private SSH key Details to the Virtual machine | string | - | yes |
 | vm_ipv4_address_list | IPv4 Address's in List format | list | - | yes |
 | vm_os_password | Operating System Password for the Operating System User to access virtual machine | string | - | yes |
@@ -32,6 +33,8 @@ To use the module in your deployment, include the following module definition in
 ```
 module "add_ilmt_file" {
   source               = "git::https://github.com/IBM-CAMHub-Open/terraform-modules.git?ref=1.0//config_add_ilmt_file"
+  
+  enable_vm           = "false"
 
   private_key          = ""
   vm_os_password       = ""
@@ -50,6 +53,9 @@ module "add_ilmt_file" {
 ```
 
 In the above sample usage, the module requires:
+
+**VM is enabled**:
+- *enable_vm* = optional property, set it to false if the vm this module depends on will not be created.  The default value of the *enable_vm* is true so there is no need to set it for configurations that create the depending vm.
 
 **Virtual machine connection information**:
 - *private_key* = vm's private key ( can be empty if password is used instead )
