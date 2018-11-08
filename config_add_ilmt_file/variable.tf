@@ -3,3 +3,4 @@ variable "vm_os_user"           { type = "string"  description = "Operating Syst
 variable "vm_ipv4_address_list" { type="list"      description = "IPv4 Address's in List format"}
 variable "private_key"          { type = "string"  description = "Private SSH key Details to the Virtual machine"}
 variable "dependsOn"            { default = "true" description = "Boolean for dependency"}
+variable "enable_vm"            { type = "string" default = "true"}

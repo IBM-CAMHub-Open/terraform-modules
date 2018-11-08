@@ -30,8 +30,8 @@ resource "null_resource" "create_ilmt_file" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/scripts/cam_swtag.id"
-    destination = "/tmp/cam_swtag.id"
+    source      = "${path.module}/scripts/ibm.com_IBM_Cloud_Automation_Manager_managed_system-3.1.0.swidtag"
+    destination = "/tmp/ibm.com_IBM_Cloud_Automation_Manager_managed_system-3.1.0.swidtag"
   }
 
   provisioner "remote-exec" {
